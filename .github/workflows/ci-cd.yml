@@ -55,23 +55,6 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Install Maven 3.9.2 Manually
-        run: |
-          # Remove any existing Maven version
-          sudo apt-get remove -y maven
-          
-          # Download Maven 3.9.2 and extract it
-          wget https://dlcdn.apache.org/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz
-          tar -xvzf apache-maven-3.9.2-bin.tar.gz
-          
-          # Move Maven binaries to /opt
-          sudo mv apache-maven-3.9.2 /opt/maven
-          
-          # Set Maven environment variables
-          echo "export M2_HOME=/opt/maven" >> $GITHUB_ENV
-          echo "export MAVEN_HOME=/opt/maven" >> $GITHUB_ENV
-          echo "export PATH=$M2_HOME/bin:$PATH" >> $GITHUB_ENV
-
       - name: Build the jar
         run: mvn clean package
 
