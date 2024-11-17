@@ -14,7 +14,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+          
+      - name: Install Maven 3.9.2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven=3.9.2-*
+      
       # Step to automatically bump the version number
       - name: Bump version
         id: bump_version
@@ -36,20 +47,24 @@ jobs:
           git add pom.xml
           git commit -m "Bump version to $new_version"
           git push
-
-      
+          
   build-and-push:
     needs: version-bump
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Set up JDK 11
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: '11'
+          java-version: '17'
+
+      - name: Install Maven 3.9.2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven=3.9.2-*
 
       - name: Build the jar
         run: mvn clean package
